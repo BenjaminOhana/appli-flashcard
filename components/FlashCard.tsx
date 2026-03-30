@@ -23,23 +23,24 @@ export function FlashCard({ card, onKnew, onForgot, isFlipped, setIsFlipped }: F
         {/* Front Face */}
         <div
           className={cn(
-            "absolute inset-0 backface-hidden rounded-[24px] p-8 shadow-xl flex flex-col items-center justify-center bg-slate-800 border border-slate-700/50",
+            "absolute top-0 left-0 w-full h-full rounded-[24px] p-6 sm:p-8 shadow-xl flex flex-col items-center justify-center bg-slate-800 border border-slate-700/50 overflow-y-auto",
             !isFlipped ? "cursor-pointer hover:bg-slate-800/80 transition-colors" : ""
           )}
           onClick={() => !isFlipped && setIsFlipped(true)}
+          style={{ WebkitBackfaceVisibility: "hidden", backfaceVisibility: "hidden" }}
         >
-          <div className="flex flex-col items-center justify-center space-y-8 text-center h-full w-full">
+          <div className="flex flex-col items-center justify-center space-y-6 text-center w-full min-h-full">
             {card.context && (
               <span className="text-blue-400 text-xs font-semibold tracking-widest uppercase opacity-80 mb-2">
                 {card.context}
               </span>
             )}
             
-            <h2 className="text-3xl font-bold text-slate-50 leading-tight">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-50 leading-tight w-full break-words px-2" style={{ textWrap: 'balance' }}>
               {card.expressionFR}
             </h2>
             
-            <div className="absolute bottom-8 left-0 w-full text-center">
+            <div className="absolute bottom-6 left-0 w-full text-center">
               <span className="text-slate-400 text-sm animate-pulse block">
                 Tap to flip
               </span>
@@ -49,35 +50,40 @@ export function FlashCard({ card, onKnew, onForgot, isFlipped, setIsFlipped }: F
 
         {/* Back Face */}
         <div
-          className="absolute inset-0 backface-hidden rotate-y-180 rounded-[24px] p-8 shadow-2xl flex flex-col bg-slate-800 border border-slate-700/50"
+          className="absolute top-0 left-0 w-full h-full rounded-[24px] p-6 sm:p-8 shadow-2xl flex flex-col bg-slate-800 border border-slate-700/50 overflow-y-auto"
+          style={{ 
+            WebkitBackfaceVisibility: "hidden", 
+            backfaceVisibility: "hidden",
+            transform: "rotateY(180deg)"
+          }}
         >
-          <div className="flex-1 flex flex-col items-center justify-center text-center space-y-6">
-            <h2 className="text-3xl font-bold text-slate-50 leading-tight">
+          <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 sm:space-y-6 w-full">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-50 leading-tight w-full break-words px-2" style={{ textWrap: 'balance' }}>
               {card.expressionEN}
             </h2>
             
             {card.rule && (
-              <div className="bg-slate-900/40 rounded-2xl p-5 border border-slate-700/30 w-full mt-6 backdrop-blur-sm">
+              <div className="bg-slate-900/40 rounded-2xl p-4 sm:p-5 border border-slate-700/30 w-full mt-4 backdrop-blur-sm">
                 <span className="text-slate-400 text-xs uppercase tracking-widest block mb-2 font-bold">
                   💡 Règle / Info
                 </span>
-                <p className="text-sm text-slate-300 leading-relaxed text-left">
+                <p className="text-sm text-slate-300 leading-relaxed text-left break-words">
                   {card.rule}
                 </p>
               </div>
             )}
           </div>
 
-          <div className="flex gap-4 mt-8 w-full">
+          <div className="flex gap-3 mt-6 w-full shrink-0">
             <button 
               onClick={(e) => { e.stopPropagation(); onForgot(); }}
-              className="flex-1 py-4 px-4 rounded-[16px] bg-red-500/10 text-red-500 font-bold border border-red-500/20 active:bg-red-500/20 transition-colors shadow-sm"
+              className="flex-1 py-3 sm:py-4 px-2 sm:px-4 rounded-[16px] bg-red-500/10 text-red-500 font-bold border border-red-500/20 active:bg-red-500/30 transition-colors shadow-sm text-sm sm:text-base"
             >
               À revoir
             </button>
             <button 
               onClick={(e) => { e.stopPropagation(); onKnew(); }}
-              className="flex-1 py-4 px-4 rounded-[16px] bg-green-500/10 text-green-500 font-bold border border-green-500/20 active:bg-green-500/20 transition-colors shadow-sm"
+              className="flex-1 py-3 sm:py-4 px-2 sm:px-4 rounded-[16px] bg-green-500/10 text-green-500 font-bold border border-green-500/20 active:bg-green-500/30 transition-colors shadow-sm text-sm sm:text-base"
             >
               Je savais
             </button>
