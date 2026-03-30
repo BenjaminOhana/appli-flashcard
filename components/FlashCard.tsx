@@ -15,20 +15,18 @@ interface FlashCardProps {
 export function FlashCard({ card, onKnew, onForgot, isFlipped, setIsFlipped }: FlashCardProps) {
   return (
     <div className="w-full max-w-[428px] mx-auto h-[480px] perspective-1000">
-      <div 
-        className="w-full h-full relative"
+      <motion.div 
+        className="w-full h-full relative preserve-3d"
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        transition={{ duration: 0.6, type: "spring", stiffness: 260, damping: 20 }}
       >
         {/* Front Face */}
-        <motion.div
+        <div
           className={cn(
             "absolute inset-0 backface-hidden rounded-[24px] p-8 shadow-xl flex flex-col items-center justify-center bg-slate-800 border border-slate-700/50",
             !isFlipped ? "cursor-pointer hover:bg-slate-800/80 transition-colors" : ""
           )}
           onClick={() => !isFlipped && setIsFlipped(true)}
-          initial={{ rotateY: 0 }}
-          animate={{ rotateY: isFlipped ? 180 : 0 }}
-          transition={{ duration: 0.6, type: "spring", stiffness: 260, damping: 20 }}
-          style={{ backfaceVisibility: "hidden" }}
         >
           <div className="flex flex-col items-center justify-center space-y-8 text-center h-full w-full">
             {card.context && (
@@ -47,15 +45,11 @@ export function FlashCard({ card, onKnew, onForgot, isFlipped, setIsFlipped }: F
               </span>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Back Face */}
-        <motion.div
-          className="absolute inset-0 rounded-[24px] p-8 shadow-2xl flex flex-col bg-slate-800 border border-slate-700/50"
-          initial={{ rotateY: -180 }}
-          animate={{ rotateY: isFlipped ? 0 : -180 }}
-          transition={{ duration: 0.6, type: "spring", stiffness: 260, damping: 20 }}
-          style={{ backfaceVisibility: "hidden" }}
+        <div
+          className="absolute inset-0 backface-hidden rotate-y-180 rounded-[24px] p-8 shadow-2xl flex flex-col bg-slate-800 border border-slate-700/50"
         >
           <div className="flex-1 flex flex-col items-center justify-center text-center space-y-6">
             <h2 className="text-3xl font-bold text-slate-50 leading-tight">
@@ -88,8 +82,8 @@ export function FlashCard({ card, onKnew, onForgot, isFlipped, setIsFlipped }: F
               Je savais
             </button>
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </div>
   );
 }
