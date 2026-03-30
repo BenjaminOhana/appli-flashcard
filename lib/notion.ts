@@ -66,7 +66,7 @@ export async function fetchCardsToReview(): Promise<FlashCard[]> {
   // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split('T')[0];
 
-  const response = await notion.databases.query({
+  const response = await (notion.databases as any).query({
     database_id: DATABASE_ID,
     filter: {
       or: [
