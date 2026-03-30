@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { IrregularVerbsModal } from "@/components/IrregularVerbsModal";
 import "./globals.css";
 
 const inter = Inter({
@@ -24,7 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark h-full antialiased bg-slate-900 text-slate-50">
-      <body className={`${inter.className} min-h-full flex flex-col`}>{children}</body>
+      <body className={`${inter.className} min-h-full flex flex-col`}>
+        {children}
+        <IrregularVerbsModal />
+      </body>
     </html>
   );
 }

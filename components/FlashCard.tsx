@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Undo2 } from "lucide-react";
 import { FlashCard as FlashCardType } from "@/lib/notion";
 import { cn } from "@/lib/utils";
 
@@ -50,14 +51,23 @@ export function FlashCard({ card, onKnew, onForgot, isFlipped, setIsFlipped }: F
 
         {/* Back Face */}
         <div
-          className="[grid-area:1/1] w-full h-full rounded-[24px] p-6 sm:p-8 shadow-2xl flex flex-col bg-slate-800 border border-slate-700/50 overflow-y-auto"
+          className="[grid-area:1/1] w-full h-full rounded-[24px] p-6 sm:p-8 shadow-2xl flex flex-col bg-slate-800 border border-slate-700/50 overflow-y-auto relative"
           style={{ 
             WebkitBackfaceVisibility: "hidden", 
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)"
           }}
         >
-          <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 sm:space-y-6 w-full">
+          {/* Flip Back Button */}
+          <button
+            onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2.5 rounded-full bg-slate-700/30 hover:bg-slate-600/50 text-slate-400 hover:text-slate-200 transition-colors pointer-events-auto z-10"
+            title="Revoir le Français"
+          >
+            <Undo2 className="w-5 h-5" />
+          </button>
+
+          <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 sm:space-y-6 w-full pt-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-50 leading-tight w-full break-words" style={{ textWrap: 'balance' }}>
               {card.expressionEN}
             </h2>
