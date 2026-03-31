@@ -16,10 +16,11 @@ interface FlashCardProps {
 
 export function FlashCard({ card, onKnew, onForgot, isFlipped, setIsFlipped }: FlashCardProps) {
   const [direction, setDirection] = useState<'FR-EN' | 'EN-FR'>('FR-EN');
+  const [showExample, setShowExample] = useState(false);
 
   useEffect(() => {
-    // Randomize direction for each new card (50/50)
     setDirection(Math.random() > 0.5 ? 'FR-EN' : 'EN-FR');
+    setShowExample(false); // reset state when card changes
   }, [card.id]);
 
   const frontText = direction === 'FR-EN' ? card.expressionFR : card.expressionEN;
@@ -90,6 +91,34 @@ export function FlashCard({ card, onKnew, onForgot, isFlipped, setIsFlipped }: F
               {backText}
             </h2>
             
+            <div className="w-full flex justify-center mt-2 pointer-events-auto">
+              {card.example && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowExample(!showExample);
+                  }}
+                  className="bg-[#F5F2EA] hover:bg-[#E8E2D2] px-4 py-1.5 rounded-full border border-[#E8E2D2] text-[#8A958D] text-xs font-bold uppercase tracking-widest transition-colors flex items-center shadow-sm"
+                >
+                  💬 Exemple {showExample ? "▲" : "▼"}
+                </button>
+              )}
+            </div>
+
+            {card.example && showExample && (
+              <motion.div
+                initial={{ opacity: 0, height: 0, scale: 0.95 }}
+                animate={{ opacity: 1, height: "auto", scale: 1 }}
+                className="w-full overflow-hidden"
+              >
+                <div className="bg-[#3A5A40]/5 rounded-2xl p-4 sm:p-5 border border-[#3A5A40]/10 w-full shadow-inner mt-2">
+                  <p className="text-[#3A5A40] text-sm md:text-base font-medium italic">
+                    "{card.example}"
+                  </p>
+                </div>
+              </motion.div>
+            )}
+
             {card.rule && (
               <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E2D2] w-full mt-4 shadow-sm">
                 <span className="text-[#CA5D3A] text-[10px] sm:text-xs uppercase tracking-widest block mb-2 font-bold">

@@ -11,6 +11,7 @@ export interface FlashCard {
   expressionFR: string;
   expressionEN: string;
   rule: string;
+  example: string;
   context: string;
   status: "À revoir" | "En cours" | "Acquis ✅" | string;
   nextReviewDate: string | null;
@@ -23,6 +24,7 @@ export const propertyNames = {
   fr: "🇫🇷 Expression FR",
   en: "🇬🇧 Expression EN",
   rule: "💡 Règle / piège",
+  example: "💬 Exemple",
   context: "📍 Contexte",
   date: "📅 Date",
   status: "Statut",
@@ -48,6 +50,7 @@ export function parseNotionCard(page: any): FlashCard {
     expressionFR: getTitle(props[propertyNames.fr]),
     expressionEN: getRichText(props[propertyNames.en]),
     rule: getRichText(props[propertyNames.rule]),
+    example: getRichText(props[propertyNames.example]),
     context: getSelect(props[propertyNames.context]),
     status: getStatus(props[propertyNames.status]),
     nextReviewDate: getDate(props[propertyNames.nextReviewDate]),
@@ -84,42 +87,58 @@ export async function fetchCardsToReview(): Promise<FlashCard[]> {
         }
       ],
     },
-    // Only return pages (filter out empty rows if any)
+    sorts: [
+      {
+        property: propertyNames.score,
+        direction: "ascending",
+      },
+      {
+        timestamp: "created_time",
+        direction: "descending",
+      }
+    ]
   });
 
   return response.results.map(parseNotionCard);
 }
 
-export async function addCard(data: { expressionFR: string; expressionEN: string; rule: string; context: string }) {
+export async function addCard(data: { expressionFR: string; expressionEN: string; rule: string; example: string; context: string }) {
   if (!DATABASE_ID) throw new Error("Database ID missing");
 
   const today = new Date().toISOString().split('T')[0];
 
+  const properties: any = {
+    [propertyNames.fr]: {
+      title: [{ text: { content: data.expressionFR } }],
+    },
+    [propertyNames.en]: {
+      rich_text: [{ text: { content: data.expressionEN } }],
+    },
+    [propertyNames.context]: {
+      select: { name: data.context },
+    },
+    [propertyNames.date]: {
+      date: { start: today },
+    },
+    [propertyNames.status]: {
+      status: { name: "À revoir" },
+    },
+    [propertyNames.interval]: { number: 0 },
+    [propertyNames.score]: { number: 0 },
+    [propertyNames.revisionsCount]: { number: 0 },
+  };
+
+  if (data.rule) {
+    properties[propertyNames.rule] = { rich_text: [{ text: { content: data.rule } }] };
+  }
+  
+  if (data.example) {
+    properties[propertyNames.example] = { rich_text: [{ text: { content: data.example } }] };
+  }
+
   return await notion.pages.create({
     parent: { database_id: DATABASE_ID },
-    properties: {
-      [propertyNames.fr]: {
-        title: [{ text: { content: data.expressionFR } }],
-      },
-      [propertyNames.en]: {
-        rich_text: [{ text: { content: data.expressionEN } }],
-      },
-      [propertyNames.rule]: {
-        rich_text: [{ text: { content: data.rule } }],
-      },
-      [propertyNames.context]: {
-        select: { name: data.context },
-      },
-      [propertyNames.date]: {
-        date: { start: today },
-      },
-      [propertyNames.status]: {
-        status: { name: "À revoir" },
-      },
-      [propertyNames.interval]: { number: 0 },
-      [propertyNames.score]: { number: 0 },
-      [propertyNames.revisionsCount]: { number: 0 },
-    },
+    properties,
   });
 }
 

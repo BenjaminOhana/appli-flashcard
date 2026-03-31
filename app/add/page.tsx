@@ -10,6 +10,7 @@ export default function AddPage() {
     expressionFR: "",
     expressionEN: "",
     rule: "",
+    example: "",
     context: "Koh Tao — vie quotidienne"
   });
 
@@ -99,6 +100,18 @@ export default function AddPage() {
               onChange={e => setFormData({...formData, rule: e.target.value})}
               className="w-full bg-white border border-[#E8E2D2] rounded-2xl px-5 py-4 text-[#1C2A21] placeholder:text-[#A0AAB2] focus:outline-none focus:ring-2 focus:ring-[#CA5D3A]/30 focus:border-[#CA5D3A] transition-all shadow-sm min-h-[100px] resize-none"
               placeholder="Ex: Simple past utilisé car action terminée."
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs uppercase tracking-widest text-[#8A958D] font-bold ml-1">
+              💬 Exemple / Contexte (Optionnel)
+            </label>
+            <textarea 
+              value={formData.example}
+              onChange={e => setFormData({...formData, example: e.target.value})}
+              className="w-full bg-white border border-[#E8E2D2] rounded-2xl px-5 py-4 text-[#1C2A21] placeholder:text-[#A0AAB2] focus:outline-none focus:ring-2 focus:ring-[#CA5D3A]/30 focus:border-[#CA5D3A] transition-all shadow-sm min-h-[100px] resize-none"
+              placeholder="Ex: I bought a coconut at the beach."
             />
           </div>
 
