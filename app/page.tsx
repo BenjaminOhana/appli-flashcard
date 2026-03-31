@@ -38,45 +38,45 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col min-h-[100dvh] max-w-[428px] mx-auto bg-slate-900 text-slate-50 p-6">
+    <main className="flex flex-col min-h-[100dvh] max-w-[428px] mx-auto p-6">
       
       {/* Header */}
       <header className="flex items-center justify-between py-6">
         <div className="flex items-center space-x-2">
-          <span className="text-2xl">⚡</span>
-          <h1 className="text-xl font-bold tracking-tight">FlashTalk</h1>
+          <span className="text-2xl drop-shadow-sm">⚡</span>
+          <h1 className="text-xl font-bold tracking-tight text-[#1C2A21]">FlashTalk</h1>
         </div>
         
-        <div className="flex items-center space-x-1 bg-slate-800/80 px-4 py-1.5 rounded-full border border-slate-700/50">
-          <BoltIcon className="w-4 h-4 text-orange-400 fill-orange-400" />
-          <span className="font-bold text-sm tracking-wide">{streak}</span>
+        <div className="flex items-center space-x-1 bg-[#F5F2EA] px-4 py-1.5 rounded-full border border-[#E8E2D2] shadow-sm">
+          <BoltIcon className="w-4 h-4 text-[#CA5D3A] fill-[#CA5D3A]" />
+          <span className="font-bold text-sm tracking-wide text-[#1C2A21]">{streak}</span>
         </div>
       </header>
 
       {/* Hero Stats */}
       <section className="mt-8 mb-10 flex-1">
-        <div className="bg-slate-800/80 rounded-[32px] p-8 border border-slate-700/50 shadow-2xl relative overflow-hidden flex flex-col items-center text-center">
+        <div className="bg-white rounded-[32px] p-8 border border-[#E8E2D2] shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden flex flex-col items-center text-center">
           {/* Subtle glow */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-[50px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#CA5D3A]/5 blur-[40px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
           
-          <SparklesIcon className="w-8 h-8 text-blue-400 mb-6" />
+          <SparklesIcon className="w-8 h-8 text-[#CA5D3A] mb-6" />
           
-          <h2 className="text-slate-400 text-sm tracking-widest uppercase font-bold mb-2">
+          <h2 className="text-[#8A958D] text-sm tracking-widest uppercase font-bold mb-2">
             À réviser
           </h2>
           
           <div className="flex items-baseline space-x-2">
             {loading ? (
-              <span className="text-6xl font-black tabular-nums text-slate-700 animate-pulse">--</span>
+              <span className="text-6xl font-black tabular-nums text-[#A0AAB2] animate-pulse">--</span>
             ) : (
-              <span className="text-7xl font-black tabular-nums tracking-tighter text-slate-50">
+              <span className="text-7xl font-black tabular-nums tracking-tighter text-[#1C2A21]">
                 {cards.length}
               </span>
             )}
-            <span className="text-slate-400 font-medium tracking-wide">cartes</span>
+            <span className="text-[#8A958D] font-medium tracking-wide">cartes</span>
           </div>
 
-          <p className="mt-6 text-sm text-slate-400 leading-relaxed max-w-[200px]">
+          <p className="mt-6 text-sm text-[#5D6B62] leading-relaxed max-w-[200px] font-medium">
             {cards.length > 0 
               ? "Your brain is ready for a quick workout." 
               : "You're all caught up! Take a mindful break."}
@@ -89,20 +89,20 @@ export default function Home() {
         <button
           onClick={startReview}
           disabled={loading || cards.length === 0}
-          className="w-full relative group overflow-hidden bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-5 px-6 rounded-[20px] transition-all shadow-[0_0_40px_-10px_rgba(59,130,246,0.3)] shadow-blue-500/20"
+          className="w-full relative group overflow-hidden bg-[#CA5D3A] hover:bg-[#B35233] active:bg-[#A1472C] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-5 px-6 rounded-[20px] transition-all shadow-[0_0_40px_-10px_rgba(202,93,58,0.4)] shadow-[#CA5D3A]/20"
         >
           <span className="relative z-10 flex items-center justify-center text-lg tracking-wide">
             Commencer la révision
           </span>
           {/* Shine effect */}
-          <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+          <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
         </button>
 
         <button
           onClick={() => router.push('/add')}
-          className="w-full flex items-center justify-center space-x-2 bg-slate-800 hover:bg-slate-700 active:bg-slate-600 border border-slate-700/50 text-slate-300 font-bold py-5 px-6 rounded-[20px] transition-all"
+          className="w-full flex items-center justify-center space-x-2 bg-white hover:bg-[#FBF9F4] active:bg-[#F5F2EA] border border-[#E8E2D2] text-[#1C2A21] font-bold py-5 px-6 rounded-[20px] transition-all shadow-sm"
         >
-          <PlusIcon className="w-5 h-5" />
+          <PlusIcon className="w-5 h-5 text-[#3A5A40]" />
           <span className="tracking-wide">Ajout Rapide</span>
         </button>
       </div>

@@ -66,7 +66,7 @@ export default function ReviewPage() {
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <div className="animate-pulse text-slate-400 font-medium tracking-wide">
+        <div className="animate-pulse text-[#8A958D] font-medium tracking-wide">
           Loading your session...
         </div>
       </div>
@@ -86,7 +86,7 @@ export default function ReviewPage() {
     
     return (
       <div className="flex h-screen items-center justify-center">
-        <div className="animate-pulse text-slate-400 font-medium tracking-wide">
+        <div className="animate-pulse text-[#8A958D] font-medium tracking-wide">
           Computing results...
         </div>
       </div>
@@ -96,17 +96,17 @@ export default function ReviewPage() {
   const currentCard = cards[currentIndex];
 
   return (
-    <div className="flex flex-col h-[100dvh] max-w-[428px] mx-auto p-6 bg-slate-900 text-slate-50">
+    <div className="flex flex-col h-[100dvh] max-w-[428px] mx-auto p-6">
       <header className="flex items-center justify-between mb-8 mt-2">
         <button 
           onClick={() => router.push('/')}
-          className="text-slate-400 hover:text-slate-50 transition-colors uppercase tracking-widest text-xs font-bold"
+          className="text-[#8A958D] hover:text-[#CA5D3A] transition-colors uppercase tracking-widest text-xs font-bold"
         >
           &larr; Quit
         </button>
-        <div className="bg-slate-800 px-4 py-1.5 rounded-full border border-slate-700/50">
-          <span className="text-slate-300 font-bold text-sm tracking-widest">
-            {currentIndex + 1} <span className="text-slate-500">/</span> {cards.length}
+        <div className="bg-white px-4 py-1.5 rounded-full border border-[#E8E2D2] shadow-sm">
+          <span className="text-[#1C2A21] font-bold text-sm tracking-widest">
+            {currentIndex + 1} <span className="text-[#8A958D]">/</span> {cards.length}
           </span>
         </div>
       </header>

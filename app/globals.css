@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #0f172a; /* slate-900 */
-  --color-foreground: #f8fafc; /* slate-50 */
+  --color-background: #FDFBF7; /* Beige sable */
+  --color-foreground: #1C2A21; /* Vert sombre */
 }
 
 html,

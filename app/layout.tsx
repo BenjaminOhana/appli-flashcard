@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark h-full antialiased bg-slate-900 text-slate-50">
+    <html lang="fr" className="h-full antialiased bg-[#FDFBF7] text-[#1C2A21] selection:bg-[#CA5D3A]/20">
       <body className={`${inter.className} min-h-full flex flex-col`}>
         {children}
         <IrregularVerbsModal />
