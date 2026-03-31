@@ -67,6 +67,7 @@ const VERB_GROUPS = [
 export function IrregularVerbsModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [showRules, setShowRules] = useState(false);
   
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -139,18 +140,52 @@ export function IrregularVerbsModal() {
                   </button>
                 </div>
                 
-                {/* Rules Explanations */}
-                <div className="bg-white rounded-xl p-3 sm:p-4 border border-[#E8E2D2] mb-5 shadow-sm">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs leading-relaxed">
-                    <div>
-                      <span className="font-bold text-[#CA5D3A] block mb-0.5">🗓 Prétérit (Past Simple)</span>
-                      <span className="text-[#5D6B62]">Action terminée dans le passé. (Ex: Yesterday, I <strong className="font-bold text-[#1C2A21] underline decoration-[#CA5D3A]/40 decoration-wavy">ate</strong> a pad thai)</span>
-                    </div>
-                    <div>
-                      <span className="font-bold text-[#3A5A40] block mb-0.5">🔗 Participe (Past Participle)</span>
-                      <span className="text-[#5D6B62]">Avec HAVE pour un bilan présent, ou voix passive. (Ex: I have never <strong className="font-bold text-[#1C2A21] underline decoration-[#3A5A40]/40 decoration-wavy">eaten</strong> here)</span>
-                    </div>
-                  </div>
+                {/* Rules Explanations - Collapsible */}
+                <div className="bg-white rounded-xl border border-[#E8E2D2] mb-5 shadow-sm overflow-hidden">
+                  <button 
+                    onClick={() => setShowRules(!showRules)}
+                    className="w-full flex items-center justify-between p-3 sm:p-4 text-left font-bold text-[#1C2A21] hover:bg-[#F5F2EA] transition-colors"
+                  >
+                    <span className="flex items-center space-x-2">
+                      <span>💡</span>
+                      <span>Comment utiliser ces temps ?</span>
+                    </span>
+                    <span className={`text-[#8A958D] transition-transform duration-300 ${showRules ? "rotate-180" : "rotate-0"}`}>
+                      ▼
+                    </span>
+                  </button>
+                  
+                  <AnimatePresence>
+                    {showRules && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="p-3 sm:p-4 border-t border-[#E8E2D2] grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs leading-relaxed">
+                          <div>
+                            <span className="font-bold text-[#CA5D3A] block mb-1 text-sm">🗓 Prétérit (Past Simple)</span>
+                            <p className="text-[#5D6B62] mb-2 font-medium">L'action est <strong className="text-[#1C2A21]">totalement terminée</strong> dans le passé (la période de temps est révolue).</p>
+                            <ul className="space-y-1 text-[#8A958D] list-disc pl-4">
+                              <li>Yesterday, I <strong className="font-bold text-[#1C2A21] underline decoration-[#CA5D3A]/40 decoration-wavy">ate</strong> a pad thai.</li>
+                              <li>He <strong className="font-bold text-[#1C2A21] underline decoration-[#CA5D3A]/40 decoration-wavy">went</strong> to Bali in 2022.</li>
+                              <li>I <strong className="font-bold text-[#1C2A21] underline decoration-[#CA5D3A]/40 decoration-wavy">saw</strong> him two hours ago.</li>
+                            </ul>
+                          </div>
+                          <div>
+                            <span className="font-bold text-[#3A5A40] block mb-1 text-sm">🔗 Participe (Past Participle)</span>
+                            <p className="text-[#5D6B62] mb-2 font-medium">Le temps utilisé avec <strong className="text-[#1C2A21]">HAVE</strong> pour faire un bilan au présent ("J'ai déjà...").</p>
+                            <ul className="space-y-1 text-[#8A958D] list-disc pl-4">
+                              <li>I have never <strong className="font-bold text-[#1C2A21] underline decoration-[#3A5A40]/40 decoration-wavy">eaten</strong> here.</li>
+                              <li>Have you ever <strong className="font-bold text-[#1C2A21] underline decoration-[#3A5A40]/40 decoration-wavy">seen</strong> this movie?</li>
+                              <li>It was <strong className="font-bold text-[#1C2A21] underline decoration-[#3A5A40]/40 decoration-wavy">made</strong> in Thailand. (Voix passive)</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
                 
                 <div className="relative">
