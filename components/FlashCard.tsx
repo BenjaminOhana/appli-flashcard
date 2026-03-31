@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Undo2 } from "lucide-react";
 import { FlashCard as FlashCardType } from "@/lib/notion";
@@ -14,6 +15,17 @@ interface FlashCardProps {
 }
 
 export function FlashCard({ card, onKnew, onForgot, isFlipped, setIsFlipped }: FlashCardProps) {
+  const [direction, setDirection] = useState<'FR-EN' | 'EN-FR'>('FR-EN');
+
+  useEffect(() => {
+    // Randomize direction for each new card (50/50)
+    setDirection(Math.random() > 0.5 ? 'FR-EN' : 'EN-FR');
+  }, [card.id]);
+
+  const frontText = direction === 'FR-EN' ? card.expressionFR : card.expressionEN;
+  const backText = direction === 'FR-EN' ? card.expressionEN : card.expressionFR;
+  const badgeText = direction === 'FR-EN' ? '🇫🇷 FR → EN 🇬🇧' : '🇬🇧 EN → FR 🇫🇷';
+
   return (
     <div className="w-full h-full max-h-[600px] min-h-[480px] perspective-1000 flex items-stretch">
       <motion.div 
@@ -31,15 +43,21 @@ export function FlashCard({ card, onKnew, onForgot, isFlipped, setIsFlipped }: F
           onClick={() => !isFlipped && setIsFlipped(true)}
           style={{ WebkitBackfaceVisibility: "hidden", backfaceVisibility: "hidden" }}
         >
-          <div className="flex flex-col items-center justify-center space-y-6 text-center h-full w-full">
-            {card.context && (
-              <span className="text-[#CA5D3A] text-xs font-semibold tracking-widest uppercase opacity-80 mb-2">
-                {card.context}
-              </span>
-            )}
+          <div className="flex flex-col items-center justify-center space-y-6 text-center h-full w-full relative">
             
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#1C2A21] leading-tight w-full break-words" style={{ textWrap: 'balance' }}>
-              {card.expressionFR}
+            <div className="absolute top-0 flex flex-col items-center space-y-2 w-full mt-2">
+              <span className="px-3 py-1 bg-[#F5F2EA] text-[#8A958D] text-xs font-bold rounded-full border border-[#E8E2D2] tracking-widest shadow-sm">
+                {badgeText}
+              </span>
+              {card.context && (
+                <span className="text-[#CA5D3A] text-[10px] font-bold tracking-[0.2em] uppercase opacity-80 mt-1">
+                  {card.context}
+                </span>
+              )}
+            </div>
+            
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#1C2A21] leading-tight w-full break-words mt-10" style={{ textWrap: 'balance' }}>
+              {frontText}
             </h2>
           </div>
           <div className="mt-auto w-full text-center pb-2">
@@ -62,19 +80,19 @@ export function FlashCard({ card, onKnew, onForgot, isFlipped, setIsFlipped }: F
           <button
             onClick={(e) => { e.stopPropagation(); setIsFlipped(false); }}
             className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2.5 rounded-full bg-white hover:bg-white text-[#8A958D] hover:text-[#CA5D3A] transition-colors pointer-events-auto z-10 shadow-sm border border-[#E8E2D2]"
-            title="Revoir le Français"
+            title="Retourner la carte"
           >
             <Undo2 className="w-5 h-5" />
           </button>
 
           <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 sm:space-y-6 w-full pt-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-[#1C2A21] leading-tight w-full break-words" style={{ textWrap: 'balance' }}>
-              {card.expressionEN}
+              {backText}
             </h2>
             
             {card.rule && (
               <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E2D2] w-full mt-4 shadow-sm">
-                <span className="text-[#CA5D3A] text-xs uppercase tracking-widest block mb-2 font-bold">
+                <span className="text-[#CA5D3A] text-[10px] sm:text-xs uppercase tracking-widest block mb-2 font-bold">
                   💡 Règle / Info
                 </span>
                 <p className="text-sm text-[#5D6B62] leading-relaxed text-left break-words font-medium">
